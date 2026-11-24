@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aether-frontend
+  namespace: aetherllm
+  labels:
+    app: aether-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aether-frontend
+  template:
+    metadata:
+      labels:
+        app: aether-frontend
+    spec:
+      containers:
+        - name: aether-frontend
+          image: aetherllm/frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aether-frontend-service
+  namespace: aetherllm
+spec:
+  selector:
+    app: aether-frontend
+  ports:
+    - port: 80
+      targetPort: 80

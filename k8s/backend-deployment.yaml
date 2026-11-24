@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aether-backend
+  namespace: aetherllm
+  labels:
+    app: aether-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aether-backend
+  template:
+    metadata:
+      labels:
+        app: aether-backend
+    spec:
+      containers:
+        - name: aether-backend
+          image: aetherllm/backend:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: aether-config
+            - secretRef:
+                name: aether-secrets
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2000m"
+              memory: "3Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aether-backend-service
+  namespace: aetherllm
+spec:
+  selector:
+    app: aether-backend
+  ports:
+    - port: 8080
+      targetPort: 8080
