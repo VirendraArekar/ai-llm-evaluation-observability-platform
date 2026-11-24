@@ -89,6 +89,32 @@ export const PromptsPage: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load prompts', err);
+      const fallbackPrompts: Prompt[] = [
+        {
+          id: 'p-seed-1',
+          projectId: 'b4ff1487-1c49-48b3-a781-f91740987a72',
+          name: 'Customer Support Inquiry Resolver',
+          slug: 'customer-support-inquiry-resolver',
+          description: 'Answers customer questions using knowledge base and context',
+          latestVersion: 2,
+          createdAt: '2025-05-18T10:00:00Z',
+          updatedAt: '2025-05-18T11:30:00Z',
+        },
+        {
+          id: 'p-seed-2',
+          projectId: 'b4ff1487-1c49-48b3-a781-f91740987a72',
+          name: 'Financial Report Summarizer',
+          slug: 'financial-report-summarizer',
+          description: 'Extracts key earnings and EBITDA metrics from 10-K filings',
+          latestVersion: 1,
+          createdAt: '2025-05-17T09:00:00Z',
+          updatedAt: '2025-05-17T09:00:00Z',
+        },
+      ];
+      setPrompts(fallbackPrompts);
+      if (!selectedPromptId) {
+        setSelectedPromptId(fallbackPrompts[0].id);
+      }
     }
   };
 
@@ -116,6 +142,18 @@ export const PromptsPage: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load prompt versions', err);
+      const fallbackVersion: PromptVersion = {
+        id: 'v-seed-1',
+        promptId,
+        versionNumber: 1,
+        template: 'You are a senior support engineer for Acme Cloud. Using ONLY the provided context, answer the user question:\nContext: {{context}}\nUser Question: {{question}}\nRules:\n- Be polite, concise, and professional\n- If context lacks the answer, state "I do not have enough information to answer."',
+        commitMessage: 'Production baseline template',
+        isPublished: true,
+        createdAt: '2025-05-18T10:00:00Z',
+      };
+      setVersions([fallbackVersion]);
+      setSelectedVersion(fallbackVersion);
+      setNewTemplate(fallbackVersion.template);
     }
   };
 

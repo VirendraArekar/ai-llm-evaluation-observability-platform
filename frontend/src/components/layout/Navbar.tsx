@@ -16,7 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu }) => {
   const { user, projects, selectedProjectId, selectedProject } = useSelector((state: RootState) => state.auth);
   const [showProjectDropdown, setShowProjectDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [simulating, setSimulating] = useState(false);
   const [autoSimulate, setAutoSimulate] = useState(false);
   const [lastTelemetryMessage, setLastTelemetryMessage] = useState<string | null>(null);

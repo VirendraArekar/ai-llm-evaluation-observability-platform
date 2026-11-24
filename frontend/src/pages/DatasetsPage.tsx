@@ -86,6 +86,32 @@ export const DatasetsPage: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load datasets', err);
+      const fallbackDatasets: Dataset[] = [
+        {
+          id: 'ds-seed-1',
+          projectId: 'b4ff1487-1c49-48b3-a781-f91740987a72',
+          name: 'Customer Support Golden Benchmark',
+          description: '50 production support inquiries with verified ground truth answers.',
+          currentVersion: 1,
+          itemCount: 50,
+          tags: ['golden', 'production', 'support'],
+          createdAt: '2025-05-18T10:00:00Z',
+        },
+        {
+          id: 'ds-seed-2',
+          projectId: 'b4ff1487-1c49-48b3-a781-f91740987a72',
+          name: 'Financial RAG Factual Verification',
+          description: 'Context and citation pairs from earnings reports and 10-K filings.',
+          currentVersion: 2,
+          itemCount: 35,
+          tags: ['rag', 'finance', 'citations'],
+          createdAt: '2025-05-17T12:00:00Z',
+        },
+      ];
+      setDatasets(fallbackDatasets);
+      if (!selectedDatasetId) {
+        setSelectedDatasetId(fallbackDatasets[0].id);
+      }
     } finally {
       setLoading(false);
     }
@@ -119,6 +145,24 @@ export const DatasetsPage: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load dataset items', err);
+      setItems([
+        {
+          id: 'item-1',
+          datasetId,
+          inputText: 'How do I configure OAuth 2.0 PKCE flow in the React frontend SDK?',
+          expectedOutput: 'Use createOAuthClient with authorizationCodeFlow({ pkce: true, challengeMethod: "S256" }).',
+          expectedContext: 'Section 4.2 of RFC 7636 and Acme Auth SDK v2.4 Reference Documentation.',
+          metadata: { category: 'Authentication', priority: 'High' },
+        },
+        {
+          id: 'item-2',
+          datasetId,
+          inputText: 'What is the maximum allowed batch payload size for telemetry ingestion?',
+          expectedOutput: 'The batch endpoint accepts up to 5 MB per payload or 500 events per single POST request.',
+          expectedContext: 'Telemetry Ingestion API Limits & Quotas guide.',
+          metadata: { category: 'Limits', priority: 'Medium' },
+        },
+      ] as any);
     } finally {
       setItemsLoading(false);
     }

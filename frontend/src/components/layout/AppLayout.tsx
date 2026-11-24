@@ -12,9 +12,9 @@ export const AppLayout: React.FC = () => {
   const { token } = useSelector((state: RootState) => state.auth);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Initialize theme from localStorage or system preference
+  // Initialize theme from localStorage or system preference (defaults to light)
   useEffect(() => {
-    const savedTheme = localStorage.getItem('aether_theme') || 'dark';
+    const savedTheme = localStorage.getItem('aether_theme');
     if (savedTheme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {

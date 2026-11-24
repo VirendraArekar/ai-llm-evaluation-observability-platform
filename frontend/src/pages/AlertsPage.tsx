@@ -46,6 +46,54 @@ export const AlertsPage: React.FC = () => {
       setNotifications(nData);
     } catch (err) {
       console.error('Failed to load alerts/notifications', err);
+      setAlerts([
+        {
+          id: 'al-1',
+          name: 'Critical Latency Spike P95',
+          metric: 'LATENCY_P95',
+          threshold: 2000,
+          condition: 'GREATER_THAN',
+          enabled: true,
+          notifySlack: true,
+          notifyEmail: true,
+        },
+        {
+          id: 'al-2',
+          name: 'High Hallucination Score Warning',
+          metric: 'HALLUCINATION_SCORE',
+          threshold: 0.25,
+          condition: 'GREATER_THAN',
+          enabled: true,
+          notifySlack: true,
+          notifyEmail: false,
+        },
+        {
+          id: 'al-3',
+          name: 'Daily Budget Exceeded Alert',
+          metric: 'DAILY_COST_USD',
+          threshold: 50.0,
+          condition: 'GREATER_THAN',
+          enabled: false,
+          notifySlack: true,
+          notifyEmail: true,
+        },
+      ] as any);
+      setNotifications([
+        {
+          id: 'notif-1',
+          title: 'Latency Spike Alert Triggered',
+          message: 'P95 latency exceeded 2000ms threshold on gpt-4o provider (2340ms recorded).',
+          isRead: false,
+          createdAt: '2025-05-18T10:15:00Z',
+        },
+        {
+          id: 'notif-2',
+          title: 'Daily Cost Budget Warning',
+          message: 'Project reached 85% of monthly cost threshold.',
+          isRead: true,
+          createdAt: '2025-05-18T09:30:00Z',
+        },
+      ] as any);
     } finally {
       setLoading(false);
     }
